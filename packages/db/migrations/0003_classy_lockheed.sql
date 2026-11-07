@@ -1,0 +1,1 @@
+ALTER TABLE `plans` ADD `diet_tags` text DEFAULT '[]' NOT NULL;

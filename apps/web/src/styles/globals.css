@@ -1,0 +1,540 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Be Vietnam Pro tự host (3 weight × 2 subset = 72KB) thay vì tải stylesheet từ
+ * fonts.googleapis.com — bỏ được 2 lần round-trip tới bên thứ ba trước khi trang
+ * hiện chữ. Chỉ khai báo weight thực dùng (400/500/600); `unicode-range` giữ
+ * nguyên từ Google để trình duyệt chỉ tải subset cần thiết.
+ */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-400-vietnamese.woff2') format('woff2');
+  unicode-range:
+    U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301,
+    U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-400-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-500-vietnamese.woff2') format('woff2');
+  unicode-range:
+    U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301,
+    U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-500-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-600-vietnamese.woff2') format('woff2');
+  unicode-range:
+    U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301,
+    U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-600-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Bảng màu 2026: nền trung tính ấm (warm sand), accent terracotta cho hành động chính,
+ * teal cho dữ liệu/ngân sách. Toàn bộ dùng OKLCH để giữ độ sáng đồng đều giữa các hue.
+ * Mọi cặp fg/bg ở tầng chữ phải đạt WCAG AA — kiểm ở T19.
+ */
+:root {
+  --radius: 0.875rem;
+
+  --background: oklch(0.965 0.018 80);
+  --foreground: oklch(0.265 0.025 50);
+  --card: oklch(0.995 0.006 85);
+  --card-foreground: oklch(0.265 0.025 50);
+  --popover: oklch(0.995 0.006 85);
+  --popover-foreground: oklch(0.265 0.025 50);
+  --primary: oklch(0.5 0.135 38);
+  --primary-foreground: oklch(0.995 0.004 85);
+  --secondary: oklch(0.925 0.026 75);
+  --secondary-foreground: oklch(0.33 0.035 50);
+  --muted: oklch(0.935 0.015 80);
+  --muted-foreground: oklch(0.47 0.025 55);
+  --accent: oklch(0.915 0.038 65);
+  --accent-foreground: oklch(0.33 0.055 40);
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: oklch(0.99 0.005 80);
+  --border: oklch(0.855 0.025 75);
+  --input: oklch(0.765 0.035 70);
+  --ring: oklch(0.5 0.135 38);
+
+  --chart-1: oklch(0.62 0.15 45);
+  --chart-2: oklch(0.55 0.09 195);
+  --chart-3: oklch(0.68 0.13 95);
+  --chart-4: oklch(0.5 0.1 150);
+  --chart-5: oklch(0.6 0.12 320);
+
+  --surface-raised: oklch(0.995 0.006 85);
+  --surface-sunken: oklch(0.935 0.022 80);
+  --budget-track: oklch(0.895 0.025 80);
+  --budget-safe: oklch(0.55 0.09 195);
+  --budget-warn: oklch(0.68 0.14 75);
+  --budget-over: oklch(0.55 0.19 27);
+
+  --sidebar: oklch(0.95 0.022 80);
+  --sidebar-foreground: oklch(0.265 0.025 50);
+  --sidebar-primary: oklch(0.5 0.135 38);
+  --sidebar-primary-foreground: oklch(0.995 0.004 85);
+  --sidebar-accent: oklch(0.915 0.038 65);
+  --sidebar-accent-foreground: oklch(0.33 0.055 40);
+  --sidebar-border: oklch(0.855 0.025 75);
+  --sidebar-ring: oklch(0.5 0.135 38);
+}
+
+.dark {
+  --background: oklch(0.19 0.008 60);
+  --foreground: oklch(0.96 0.005 80);
+  --card: oklch(0.235 0.01 60);
+  --card-foreground: oklch(0.96 0.005 80);
+  --popover: oklch(0.24 0.01 60);
+  --popover-foreground: oklch(0.96 0.005 80);
+  --primary: oklch(0.78 0.13 52);
+  --primary-foreground: oklch(0.2 0.02 40);
+  --secondary: oklch(0.28 0.01 60);
+  --secondary-foreground: oklch(0.95 0.005 80);
+  --muted: oklch(0.28 0.01 60);
+  --muted-foreground: oklch(0.73 0.012 75);
+  --accent: oklch(0.3 0.016 55);
+  --accent-foreground: oklch(0.95 0.005 80);
+  --destructive: oklch(0.66 0.18 25);
+  --destructive-foreground: oklch(0.19 0.008 60);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.78 0.13 52);
+
+  --chart-1: oklch(0.75 0.13 50);
+  --chart-2: oklch(0.7 0.1 195);
+  --chart-3: oklch(0.8 0.12 95);
+  --chart-4: oklch(0.68 0.11 150);
+  --chart-5: oklch(0.72 0.1 320);
+
+  --surface-raised: oklch(0.235 0.01 60);
+  --surface-sunken: oklch(0.16 0.008 60);
+  --budget-track: oklch(0.3 0.012 60);
+  --budget-safe: oklch(0.7 0.1 195);
+  --budget-warn: oklch(0.78 0.13 80);
+  --budget-over: oklch(0.66 0.18 25);
+
+  --sidebar: oklch(0.21 0.008 60);
+  --sidebar-foreground: oklch(0.96 0.005 80);
+  --sidebar-primary: oklch(0.78 0.13 52);
+  --sidebar-primary-foreground: oklch(0.2 0.02 40);
+  --sidebar-accent: oklch(0.3 0.016 55);
+  --sidebar-accent-foreground: oklch(0.95 0.005 80);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.78 0.13 52);
+}
+
+@theme inline {
+  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-budget-track: var(--budget-track);
+  --color-budget-safe: var(--budget-safe);
+  --color-budget-warn: var(--budget-warn);
+  --color-budget-over: var(--budget-over);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'ss01' 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Số tiền luôn thẳng cột, không nhảy khi giá trị thay đổi. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/*
+ * Thẻ món trên /dishes: SSR vẽ sẵn cả 100 thẻ, nên kiểu nằm ở class dùng chung
+ * thay vì chuỗi utility lặp lại trên từng thẻ (HTML trang nhẹ đi nhiều lần).
+ */
+@layer components {
+  .dish-card {
+    @apply flex h-full min-w-0 flex-col gap-2 rounded-2xl border border-border/70 bg-card p-5 text-sm text-muted-foreground shadow-sm;
+  }
+
+  .dish-card .head {
+    @apply flex items-start justify-between gap-3 text-foreground;
+  }
+
+  .dish-card h3 {
+    @apply min-w-0 text-base leading-snug font-semibold;
+  }
+
+  .dish-card .price {
+    @apply shrink-0 font-semibold tabular-nums;
+  }
+
+  .dish-card .meals {
+    @apply text-xs font-medium text-primary;
+  }
+
+  .dish-card .desc {
+    @apply line-clamp-2 leading-relaxed;
+  }
+
+  .dish-card .meta {
+    @apply mt-auto pt-1 text-xs;
+  }
+
+  .dish-card .actions {
+    @apply pt-1;
+  }
+
+  /*
+   * Nút "Đổi món" trên trang chi tiết thực đơn: thực đơn 30 ngày vẽ 180 nút, nên kiểu
+   * và icon (lucide refresh-cw qua mask) nằm ở đây thay vì utility + %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8'/%3E%3Cpath d='M21 3v5h-5'/%3E%3Cpath d='M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16'/%3E%3Cpath d='M8 16H3v5'/%3E%3C/svg%3E trên từng nút.
+   */
+  .meal-swap {
+    @apply -mx-2 inline-flex min-h-9 items-center gap-2 rounded-lg px-2 py-1 text-left transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-disabled:cursor-wait;
+    --meal-swap-flash: color-mix(in oklab, var(--primary) 22%, transparent);
+  }
+
+  .meal-swap::after {
+    @apply size-3.5 shrink-0 bg-muted-foreground;
+    content: '';
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8'/%3E%3Cpath d='M21 3v5h-5'/%3E%3Cpath d='M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16'/%3E%3Cpath d='M8 16H3v5'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .meal-swap[aria-busy='true']::after {
+    @apply motion-safe:animate-spin;
+  }
+
+  .meal-swap[data-swapped] {
+    animation: meal-swap-flash 1.5s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meal-swap {
+      transition: none;
+    }
+
+    .meal-swap[data-swapped] {
+      animation: none;
+      background-color: var(--meal-swap-flash);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .meal-swap::after {
+      forced-color-adjust: none;
+      background-color: ButtonText;
+    }
+  }
+}
+
+/* Chỉ light mode: giữ nguyên bố cục và bề mặt tối đã duyệt. */
+@media screen {
+  :root:not(.dark) {
+    --surface-shadow:
+      0 2px 5px oklch(0.35 0.04 55 / 3%), 0 16px 40px -24px oklch(0.35 0.04 55 / 20%);
+
+    body {
+      background-image: radial-gradient(ellipse at 50% 0%, var(--card), transparent 65%);
+      background-repeat: no-repeat;
+      background-size: 100% 44rem;
+    }
+
+    header.sticky {
+      background-color: color-mix(in oklab, var(--card) 92%, transparent);
+      box-shadow: 0 1px 12px oklch(0.35 0.04 55 / 4%);
+    }
+
+    [data-slot='card']:not(.shadow-none),
+    .dish-card {
+      box-shadow: var(--surface-shadow);
+    }
+
+    [data-slot='input'],
+    [data-slot='textarea'],
+    [data-slot='select-trigger'] {
+      background-color: var(--card);
+    }
+
+    [data-slot='button'][data-variant='default'] {
+      box-shadow: 0 3px 8px -3px oklch(0.4 0.1 38 / 35%);
+    }
+
+    .home-hero {
+      position: relative;
+      isolation: isolate;
+      gap: 3rem;
+      margin-block: 2rem;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      background:
+        radial-gradient(ellipse at 0% 0%, oklch(0.93 0.05 65 / 65%), transparent 65%),
+        var(--surface-sunken);
+    }
+
+    .home-eyebrow {
+      gap: 0.5rem;
+      border-color: var(--border);
+      background: var(--card);
+      color: var(--primary);
+    }
+
+    .home-eyebrow::before {
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: currentColor;
+      content: '';
+    }
+
+    .home-title {
+      max-width: 12ch;
+      font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.045em;
+    }
+
+    .home-actions [data-slot='button'] {
+      min-height: 3rem;
+      border-radius: 0.875rem;
+    }
+
+    .home-roles {
+      gap: 1.25rem;
+      border-color: var(--border);
+      border-radius: 1.5rem;
+    }
+
+    .home-roles [data-slot='card-header'] {
+      gap: 0.625rem;
+    }
+
+    .home-role-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .home-role {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.375rem;
+      padding: 0.875rem 0.5rem;
+      border: 0;
+      border-top: 1px solid var(--border);
+      border-radius: 0;
+      background: transparent;
+      line-height: 1.5;
+    }
+
+    .home-role-budget {
+      margin-left: 0;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .home-values {
+      gap: 1rem;
+      padding-block: 0.5rem 4rem;
+    }
+
+    .home-value {
+      gap: 1rem;
+      border-color: var(--border);
+      background: var(--card);
+    }
+
+    .home-value [data-slot='card-header'] {
+      gap: 1rem;
+    }
+
+    .home-value-index {
+      display: grid;
+      width: 2.25rem;
+      height: 2.25rem;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      background: var(--secondary);
+    }
+
+    @media (max-width: 639px) {
+      .home-hero {
+        gap: 2rem;
+        margin-block: 1rem 1.5rem;
+        padding: 1.5rem 1rem;
+        border-radius: 1.5rem;
+      }
+
+      .home-roles [data-slot='card-header'],
+      .home-role-list {
+        padding-inline: 1rem;
+      }
+
+      .home-role-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .home-role {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding-inline: 0;
+      }
+
+      .home-role-budget {
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+/*
+ * In thực đơn: bỏ nền tối để tiết kiệm mực, giữ bảng không bị cắt giữa ngày.
+ * Các phần điều hướng/nút đã được đánh dấu `print:hidden` ở component.
+ */
+@page {
+  margin: 14mm;
+}
+
+@media print {
+  :root,
+  .dark {
+    color-scheme: light;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  summary {
+    list-style: none;
+  }
+
+  .meal-swap::after {
+    display: none;
+  }
+}
+
+@keyframes meal-swap-flash {
+  from {
+    background-color: var(--meal-swap-flash);
+  }
+  to {
+    background-color: transparent;
+  }
+}

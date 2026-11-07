@@ -1,0 +1,46 @@
+{
+  "name": "mam",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node scripts/serve-build.mjs",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "test:e2e": "pnpm --filter @mam/web test:e2e",
+    "db:generate": "pnpm --filter @mam/db db:generate",
+    "db:migrate": "pnpm --filter @mam/db db:migrate",
+    "db:seed": "pnpm --filter @mam/db db:seed",
+    "db:bootstrap": "pnpm --filter @mam/db db:bootstrap",
+    "db:reset": "pnpm --filter @mam/db db:reset",
+    "db:studio": "pnpm --filter @mam/db db:studio",
+    "i18n:check": "tsx scripts/i18n-check.ts",
+    "verify:planner": "tsx scripts/verify-planner.ts",
+    "ai:check": "tsx --env-file-if-exists=.env scripts/check-gemini.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "10.0.1",
+    "@mam/i18n": "workspace:*",
+    "@types/node": "26.6.6",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "playwright": "1.64.1",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "turbo": "2.11.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.0.5"
+  }
+}

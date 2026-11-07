@@ -1,0 +1,10 @@
+node_modules
+dist
+.output
+.tanstack
+.nitro
+coverage
+data
+pnpm-lock.yaml
+Dockerfile
+apps/web/src/routeTree.gen.ts

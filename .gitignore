@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+.env
+.env.local
+data/*.db
+data/*.db-shm
+data/*.db-wal
+.turbo/
+apps/web/.e2e/
+apps/web/test-results/
+apps/web/playwright-report/
+.output/
+.nitro/
+.tanstack/
+dist/
+coverage/
+*.log
