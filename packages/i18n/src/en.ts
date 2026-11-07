@@ -27,14 +27,13 @@ export const en: Dictionary = {
   'theme.light': 'Light',
   'theme.dark': 'Dark',
 
-  'home.eyebrow': 'Made for Vietnamese eaters',
   'home.title': 'What are we eating today, on your budget?',
   'home.subtitle':
     'Pick a role and a budget, get breakfast, lunch and dinner with real prices. Or ask the AI if you want a longer explanation.',
   'home.ctaPrimary': 'Get suggestions',
   'home.ctaSecondary': 'Ask AI',
 
-  'home.rolesTitle': 'Jump in by role',
+  'home.rolesTitle': 'Daily budget reference',
   'home.value.price.title': 'Real prices, no guessing',
   'home.value.price.desc':
     'Every number comes from our 100-dish Vietnamese database — the AI picks and explains, it never invents a price.',

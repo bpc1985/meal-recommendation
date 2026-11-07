@@ -29,14 +29,13 @@ export const vi = {
   'theme.light': 'Sáng',
   'theme.dark': 'Tối',
 
-  'home.eyebrow': 'Dành cho người Việt',
   'home.title': 'Hôm nay ăn gì với ngân sách của bạn?',
   'home.subtitle':
     'Chọn vai trò và ngân sách, nhận gợi ý bữa sáng, trưa, tối kèm giá thật. Hoặc hỏi AI nếu bạn muốn lời khuyên chi tiết hơn.',
   'home.ctaPrimary': 'Gợi ý ngay',
   'home.ctaSecondary': 'Hỏi AI',
 
-  'home.rolesTitle': 'Chọn nhanh theo vai trò',
+  'home.rolesTitle': 'Ngân sách tham khảo mỗi ngày',
   'home.value.price.title': 'Giá thật, không bịa',
   'home.value.price.desc':
     'Mọi con số đến từ cơ sở dữ liệu 100 món Việt — AI chỉ chọn và giải thích, không tự nghĩ ra giá.',

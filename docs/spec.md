@@ -504,29 +504,31 @@ trong `packages/domain/src/plan-swap.ts` trả món thay thế hoặc `null`:
 
 ## 8. UI / Design System (module `shell`)
 
-Hướng thẩm mỹ 2026–2027: **warm minimalism + bento**, nền trung tính ấm, một accent chủ đạo
-(terracotta) và một accent dữ liệu (teal), bo góc lớn, đổ bóng mềm nhiều lớp, không gradient rực.
+Hướng thẩm mỹ: công cụ chọn bữa ăn gọn, rõ, ngân sách dễ so sánh. Bề mặt trung tính,
+paprika cho hành động chính, teal cho trạng thái ngân sách. Không gradient, hero đóng khung,
+số thứ tự trang trí hay bóng thẻ nhiều lớp.
 
-- Tokens OKLCH trong `globals.css`, đặt tên theo shadcn (`--background`, `--primary`, …).
-  - Light: nền kem `oklch(0.965 0.018 80)`, chữ nâu đậm `oklch(0.265 0.025 50)`,
-    card trắng ấm `oklch(0.995 0.006 85)`, primary terracotta `oklch(0.5 0.135 38)`,
-    accent dữ liệu teal `oklch(0.55 0.09 195)`, `--radius: 0.875rem`.
-    Viền ấm, ô nhập sáng và bóng mềm giúp phân biệt các lớp bề mặt.
-  - Dark: nền `oklch(0.19 0.008 60)`, card `oklch(0.235 0.01 60)`, primary sáng hơn
-    `oklch(0.78 0.13 52)`; viền dùng alpha trắng 12%. Refresh light không thay đổi dark.
+- Tokens trong `globals.css`, đặt tên theo shadcn (`--background`, `--primary`, …).
+  - Light: nền gạo `#F7F8F6`, chữ `#242B26`, card trắng `#FFFFFF`, primary `#984323`,
+    chữ phụ `#626A63`, viền `#DCE1DA`; dữ liệu teal `oklch(0.55 0.09 195)`.
+    `--radius: 0.625rem`; nền trắng/viền phân cấp bề mặt thay cho bóng đổ.
+  - Dark: giữ bảng màu nền `oklch(0.19 0.008 60)`, card `oklch(0.235 0.01 60)`, primary
+    `oklch(0.78 0.13 52)`, viền alpha trắng 12%; dùng chung bố cục gọn và bán kính mới.
   - Mọi cặp fg/bg phải đạt **WCAG AA (≥4.5:1)** — kiểm bằng
     `BASE_URL=http://localhost:3001 node scripts/checkpoint-a11y.mjs` (S9).
 - Typography: `Be Vietnam Pro` (hỗ trợ dấu tiếng Việt tốt) cho UI; heading dùng cùng family
-  weight 600, tracking `-0.01em`. Số tiền dùng `font-variant-numeric: tabular-nums`.
+  weight 600; hero 32–48px, line-height 1.22, tracking `-0.035em`. Số tiền dùng tabular.
   Font **tự host** trong `apps/web/public/fonts` — chỉ 3 weight thực dùng (400/500/600) × 2 subset
   (`vietnamese`, `latin`), 72KB tổng, `font-display: swap`. Không còn request tới
   `fonts.googleapis.com`, nên trang không phụ thuộc mạng ngoài và không lộ IP người dùng cho bên thứ ba.
-- Layout: container 1180px, bento grid 12 cột; card món ăn tỷ lệ 3:2 với khoảng trắng rộng.
-- Trang chủ light: hero nền kem/đào nhẹ, tiêu đề lớn, CTA rõ; vai trò và ngân sách thành hàng
-  (hai cột desktop, một cột mobile), ba thẻ giá trị có số thứ tự. Giữ nguyên copy vi/en,
-  dữ liệu và hành vi. Trang khác dùng chung palette mới; kiểu trang trí chỉ áp dụng màn hình,
-  không thay đổi kiểu in thực đơn.
-- Chuyển động: 150–200ms ease-out, tôn trọng `prefers-reduced-motion`; skeleton thay spinner.
+- Layout: container 1180px; trang chủ căn trái, phần giới thiệu và tham khảo ngân sách nằm
+  cạnh nhau ở desktop, xếp dọc trên mobile. Vai trò/ngân sách dùng `dl`, giá căn phải.
+  Ba giá trị là đoạn văn, không thẻ/badge/số thứ tự. Form gợi ý dùng một bề mặt chung,
+  chia các nhóm bằng đường phân cách; lựa chọn chưa bật không tô nền.
+- Header nền đặc, không blur; đăng ký là hành động phụ. Nút chính và nút icon 44px,
+  focus ring 2px có offset. Sheet mobile có inset 16px, nút đóng 44px.
+- Chuyển động: phản hồi nút và sheet 150ms, tôn trọng `prefers-reduced-motion`; không thêm
+  chuyển động tự chạy. Giữ nguyên nghiệp vụ, giá từ DB và kiểu in thực đơn.
 - Mobile-first: breakpoints 390 / 768 / 1024 / 1280. Không horizontal scroll ở 320px.
 - Accessibility: focus-visible ring 2px offset 2px, label thật cho mọi input, `aria-live` cho kết
   quả gợi ý và lỗi, target ≥44px, chat có `role="log"`.

@@ -1061,6 +1061,41 @@ Không thay đổi logic accordion trong đợt refresh này.
 **Files:** `apps/web/src/styles/globals.css`, `apps/web/src/routes/index.tsx`,
 `docs/spec.md`, `tasks/plan.md`, `tasks/todo.md`.
 
+## Design refinement — 2026-11-07
+
+**Phạm vi:** trình bày và copy tham khảo ngân sách; không đổi logic nghiệp vụ, không thêm dependency.
+Thay thế cách trình bày của đợt light refresh phía trên; giữ lịch sử kết quả cũ.
+
+**Acceptance:**
+
+- [x] Bỏ gradient, hero đóng khung, badge và số thứ tự giá trị; thay thẻ giá trị bằng đoạn văn.
+- [x] Vai trò/ngân sách dùng danh sách có nghĩa, giá căn phải; tiêu đề vi/en không giả làm nút chọn.
+- [x] Form gợi ý chung một bề mặt, lựa chọn chưa bật không tô nền; giữ rõ selected/focus/loading.
+- [x] Header nền đặc, CTA phụ giảm trọng lượng; sheet inset 16px, animation 150ms, nút đóng 44px.
+- [x] Light/dark và vi/en đã xem trực tiếp; home/recommend/dishes/login ở 320/390/768/1440px
+      không tràn ngang.
+- [x] Gợi ý mock dev và production: ba bữa tổng 57.000 ₫ trên 60.000 ₫, còn 3.000 ₫.
+- [x] Cổng format → typecheck → lint → 459 unit → build → i18n 323 key đều đạt.
+- [x] Checkpoint a11y: 0 lỗi/vi phạm; bàn phím và reduced motion đạt.
+- [x] Checkpoint perf production Slow 4G/CPU ×4: home LCP 1896ms/CLS 0.0074,
+      recommend LCP 2128ms/CLS 0.0002; trung vị ba lượt, không có origin bên thứ ba.
+- [x] E2e toàn bộ: 26/26.
+
+**Verify:** browser smoke trực tiếp trên server mock và bản build; production không có runtime error.
+Chỉ đổi CSS/markup/copy, không đổi trạng thái hay contract nghiệp vụ. Bỏ key eyebrow chết
+ở cả hai dictionary (324 → 323 key).
+Lượt e2e đầu: 22/26 đạt; bốn failure đều từ giả định chiều cao header/nút ≤40px, không phải
+tràn hay xuống dòng. Bỏ các assertion pixel cố định (không đổi sang ngưỡng 44px); kiểm vị trí
+dòng chữ thực tế, overflow, overlap và accessible name thay thế/giữ nguyên theo hành vi.
+Lượt e2e đầy đủ sau cập nhật: **26/26 đạt**. Có log hydration mismatch ở bộ lọc `/dishes`
+và accordion mở trước hydrate; không khẳng định bộ e2e không có lỗi console. Hai luồng vẫn
+đạt test; không đổi logic lọc/accordion trong phạm vi thiết kế này.
+
+**Files:** `apps/web/src/styles/globals.css`, `apps/web/src/routes/index.tsx`,
+`apps/web/src/components/site-header.tsx`, `apps/web/src/components/recommend/recommend-form.tsx`,
+`apps/web/src/components/ui/{button,sheet}.tsx`, `packages/i18n/src/{vi,en}.ts`,
+`apps/web/e2e/{dishes,site-header}.spec.ts`, `docs/spec.md`, `tasks/plan.md`, `tasks/todo.md`.
+
 ## Ghi chú thực thi
 
 - T9 vượt ngưỡng M (5+ file) nên đã tách **T9a** (form/state) và **T9b** (kết quả/budget bar).

@@ -199,7 +199,10 @@ test.describe('duyệt món /dishes', () => {
         await page.goto('/dishes')
         await expect(page.getByRole('navigation', { name: navLabel })).toBeHidden()
         await expect(page.getByRole('button', { name: menuLabel })).toBeVisible()
-        expect((await page.locator('header').boundingBox())?.height, `${width}px`).toBe(65)
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth),
+          `tràn ngang ở ${width}px`,
+        ).toBe(0)
       }
 
       await page.setViewportSize({ width: 1024, height: 800 })
@@ -207,13 +210,18 @@ test.describe('duyệt món /dishes', () => {
       const nav = page.getByRole('navigation', { name: navLabel })
       await expect(nav).toBeVisible()
       await expect(page.getByRole('button', { name: menuLabel })).toBeHidden()
-      expect((await page.locator('header').boundingBox())?.height).toBe(65)
-      for (const link of await nav.getByRole('link').all()) {
-        expect(
-          (await link.boundingBox())?.height,
-          (await link.textContent()) ?? '',
-        ).toBeLessThanOrEqual(40)
-      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth),
+        'tràn ngang ở 1024px',
+      ).toBe(0)
+      const lineTops = await nav.getByRole('link').evaluateAll((links) =>
+        links.flatMap((link) => {
+          const range = document.createRange()
+          range.selectNodeContents(link)
+          return Array.from(range.getClientRects(), (rect) => rect.top)
+        }),
+      )
+      expect(new Set(lineTops).size, 'các nhãn điều hướng cùng một dòng').toBe(1)
     })
   }
 })

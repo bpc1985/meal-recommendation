@@ -75,33 +75,29 @@
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/*
- * Bảng màu 2026: nền trung tính ấm (warm sand), accent terracotta cho hành động chính,
- * teal cho dữ liệu/ngân sách. Toàn bộ dùng OKLCH để giữ độ sáng đồng đều giữa các hue.
- * Mọi cặp fg/bg ở tầng chữ phải đạt WCAG AA — kiểm ở T19.
- */
+/* Nền trung tính để giá và lựa chọn nổi rõ; paprika chỉ dành cho hành động. */
 :root {
-  --radius: 0.875rem;
+  --radius: 0.625rem;
 
-  --background: oklch(0.965 0.018 80);
-  --foreground: oklch(0.265 0.025 50);
-  --card: oklch(0.995 0.006 85);
-  --card-foreground: oklch(0.265 0.025 50);
-  --popover: oklch(0.995 0.006 85);
-  --popover-foreground: oklch(0.265 0.025 50);
-  --primary: oklch(0.5 0.135 38);
-  --primary-foreground: oklch(0.995 0.004 85);
-  --secondary: oklch(0.925 0.026 75);
-  --secondary-foreground: oklch(0.33 0.035 50);
-  --muted: oklch(0.935 0.015 80);
-  --muted-foreground: oklch(0.47 0.025 55);
-  --accent: oklch(0.915 0.038 65);
-  --accent-foreground: oklch(0.33 0.055 40);
+  --background: #f7f8f6;
+  --foreground: #242b26;
+  --card: #fff;
+  --card-foreground: #242b26;
+  --popover: #fff;
+  --popover-foreground: #242b26;
+  --primary: #984323;
+  --primary-foreground: #fff;
+  --secondary: #eef1eb;
+  --secondary-foreground: #242b26;
+  --muted: #eef1eb;
+  --muted-foreground: #626a63;
+  --accent: #edf1eb;
+  --accent-foreground: #242b26;
   --destructive: oklch(0.55 0.19 27);
-  --destructive-foreground: oklch(0.99 0.005 80);
-  --border: oklch(0.855 0.025 75);
-  --input: oklch(0.765 0.035 70);
-  --ring: oklch(0.5 0.135 38);
+  --destructive-foreground: #fff;
+  --border: #dce1da;
+  --input: #a0aaa0;
+  --ring: #984323;
 
   --chart-1: oklch(0.62 0.15 45);
   --chart-2: oklch(0.55 0.09 195);
@@ -109,21 +105,21 @@
   --chart-4: oklch(0.5 0.1 150);
   --chart-5: oklch(0.6 0.12 320);
 
-  --surface-raised: oklch(0.995 0.006 85);
-  --surface-sunken: oklch(0.935 0.022 80);
-  --budget-track: oklch(0.895 0.025 80);
+  --surface-raised: #fff;
+  --surface-sunken: #eef1eb;
+  --budget-track: #dce1da;
   --budget-safe: oklch(0.55 0.09 195);
   --budget-warn: oklch(0.68 0.14 75);
   --budget-over: oklch(0.55 0.19 27);
 
-  --sidebar: oklch(0.95 0.022 80);
-  --sidebar-foreground: oklch(0.265 0.025 50);
-  --sidebar-primary: oklch(0.5 0.135 38);
-  --sidebar-primary-foreground: oklch(0.995 0.004 85);
-  --sidebar-accent: oklch(0.915 0.038 65);
-  --sidebar-accent-foreground: oklch(0.33 0.055 40);
-  --sidebar-border: oklch(0.855 0.025 75);
-  --sidebar-ring: oklch(0.5 0.135 38);
+  --sidebar: #eef1eb;
+  --sidebar-foreground: #242b26;
+  --sidebar-primary: #984323;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #edf1eb;
+  --sidebar-accent-foreground: #242b26;
+  --sidebar-border: #dce1da;
+  --sidebar-ring: #984323;
 }
 
 .dark {
@@ -263,7 +259,7 @@
  */
 @layer components {
   .dish-card {
-    @apply flex h-full min-w-0 flex-col gap-2 rounded-2xl border border-border/70 bg-card p-5 text-sm text-muted-foreground shadow-sm;
+    @apply flex h-full min-w-0 flex-col gap-2 rounded-xl border border-border bg-card p-5 text-sm text-muted-foreground;
   }
 
   .dish-card .head {
@@ -337,168 +333,84 @@
   }
 }
 
-/* Chỉ light mode: giữ nguyên bố cục và bề mặt tối đã duyệt. */
-@media screen {
-  :root:not(.dark) {
-    --surface-shadow:
-      0 2px 5px oklch(0.35 0.04 55 / 3%), 0 16px 40px -24px oklch(0.35 0.04 55 / 20%);
+@layer components {
+  .home-hero {
+    display: grid;
+    align-items: center;
+    gap: 3rem;
+    padding-block: 3rem;
+  }
 
-    body {
-      background-image: radial-gradient(ellipse at 50% 0%, var(--card), transparent 65%);
-      background-repeat: no-repeat;
-      background-size: 100% 44rem;
-    }
+  .home-title {
+    max-width: 18ch;
+    font-size: clamp(2rem, 3.3vw, 3rem);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
 
-    header.sticky {
-      background-color: color-mix(in oklab, var(--card) 92%, transparent);
-      box-shadow: 0 1px 12px oklch(0.35 0.04 55 / 4%);
-    }
+  .home-actions [data-slot='button'] {
+    min-height: 2.75rem;
+  }
 
-    [data-slot='card']:not(.shadow-none),
-    .dish-card {
-      box-shadow: var(--surface-shadow);
-    }
+  .home-roles {
+    min-width: 0;
+  }
 
-    [data-slot='input'],
-    [data-slot='textarea'],
-    [data-slot='select-trigger'] {
-      background-color: var(--card);
-    }
+  .home-role-list {
+    margin-top: 1.25rem;
+  }
 
-    [data-slot='button'][data-variant='default'] {
-      box-shadow: 0 3px 8px -3px oklch(0.4 0.1 38 / 35%);
-    }
+  .home-role {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.625rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
 
-    .home-hero {
-      position: relative;
-      isolation: isolate;
-      gap: 3rem;
-      margin-block: 2rem;
-      padding: clamp(1.5rem, 4vw, 3rem);
-      border: 1px solid var(--border);
-      border-radius: 2rem;
-      background:
-        radial-gradient(ellipse at 0% 0%, oklch(0.93 0.05 65 / 65%), transparent 65%),
-        var(--surface-sunken);
-    }
+  .home-role-budget {
+    flex-shrink: 0;
+    font-weight: 500;
+    text-align: right;
+  }
 
-    .home-eyebrow {
-      gap: 0.5rem;
-      border-color: var(--border);
-      background: var(--card);
-      color: var(--primary);
-    }
+  .home-values {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: 1.75rem 3rem;
+    border-top: 1px solid var(--border);
+  }
 
-    .home-eyebrow::before {
-      width: 0.375rem;
-      height: 0.375rem;
-      border-radius: 50%;
-      background: currentColor;
-      content: '';
-    }
-
-    .home-title {
-      max-width: 12ch;
-      font-size: clamp(2.25rem, 4.4vw, 3.75rem);
-      line-height: 1.15;
-      letter-spacing: -0.045em;
-    }
-
-    .home-actions [data-slot='button'] {
-      min-height: 3rem;
-      border-radius: 0.875rem;
-    }
-
-    .home-roles {
-      gap: 1.25rem;
-      border-color: var(--border);
-      border-radius: 1.5rem;
-    }
-
-    .home-roles [data-slot='card-header'] {
-      gap: 0.625rem;
-    }
-
-    .home-role-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0;
-    }
-
-    .home-role {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.375rem;
-      padding: 0.875rem 0.5rem;
-      border: 0;
-      border-top: 1px solid var(--border);
-      border-radius: 0;
-      background: transparent;
-      line-height: 1.5;
-    }
-
-    .home-role-budget {
-      margin-left: 0;
-      color: var(--primary);
-      font-weight: 500;
-    }
-
+  @media (min-width: 640px) {
     .home-values {
-      gap: 1rem;
-      padding-block: 0.5rem 4rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
     }
+  }
 
-    .home-value {
-      gap: 1rem;
-      border-color: var(--border);
-      background: var(--card);
+  @media (min-width: 1024px) {
+    .home-hero {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 6rem;
+      padding-block: 3.5rem;
     }
+  }
+}
 
-    .home-value [data-slot='card-header'] {
-      gap: 1rem;
-    }
+@media screen {
+  [data-slot='card'] {
+    box-shadow: none;
+  }
 
-    .home-value-index {
-      display: grid;
-      width: 2.25rem;
-      height: 2.25rem;
-      place-items: center;
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      background: var(--secondary);
-    }
-
-    @media (max-width: 639px) {
-      .home-hero {
-        gap: 2rem;
-        margin-block: 1rem 1.5rem;
-        padding: 1.5rem 1rem;
-        border-radius: 1.5rem;
-      }
-
-      .home-roles [data-slot='card-header'],
-      .home-role-list {
-        padding-inline: 1rem;
-      }
-
-      .home-role-list {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .home-role {
-        flex-direction: row;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 0.75rem;
-        padding-inline: 0;
-      }
-
-      .home-role-budget {
-        flex-shrink: 0;
-      }
-    }
+  [data-slot='input'],
+  [data-slot='textarea'],
+  [data-slot='select-trigger'] {
+    background-color: var(--card);
   }
 }
 

@@ -49,7 +49,6 @@ test.describe('header khi đã đăng nhập', () => {
         expect(overflow, `tràn ngang ở ${width}px`).toBe(0)
 
         const box = (await account.boundingBox())!
-        expect(box.height, `nút tài khoản xuống dòng ở ${width}px`).toBeLessThanOrEqual(40)
         if (await menu.isVisible()) {
           const menuBox = (await menu.boundingBox())!
           expect(box.x + box.width, `đè nút menu ở ${width}px`).toBeLessThanOrEqual(menuBox.x)

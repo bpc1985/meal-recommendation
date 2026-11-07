@@ -46,16 +46,14 @@ export function SiteHeader({ user }: { user: PublicUser | null }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border bg-background">
       <div className="mx-auto flex h-16 max-w-[1180px] items-center gap-3 px-4 sm:px-6">
         <Link
           to="/"
-          className="flex items-center gap-2 rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          className="flex min-h-11 items-center gap-2 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
         >
-          <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <Utensils className="size-4" aria-hidden />
-          </span>
-          <span className="text-[17px] font-semibold tracking-tight">{t('app.name')}</span>
+          <Utensils className="size-5 text-primary" aria-hidden />
+          <span className="text-lg font-semibold tracking-tight">{t('app.name')}</span>
         </Link>
 
         <nav aria-label={t('nav.main')} className="ml-4 hidden items-center gap-1 lg:flex">
@@ -63,7 +61,7 @@ export function SiteHeader({ user }: { user: PublicUser | null }) {
             <Link
               key={item.to}
               to={item.to}
-              className="rounded-lg px-3 py-2 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex min-h-11 items-center rounded-md px-3 text-sm whitespace-nowrap text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
               activeProps={{ className: 'bg-accent text-accent-foreground font-medium' }}
             >
               {t(item.key)}
@@ -126,7 +124,7 @@ export function SiteHeader({ user }: { user: PublicUser | null }) {
               <Button asChild size="sm" variant="ghost">
                 <Link to="/login">{t('nav.login')}</Link>
               </Button>
-              <Button asChild size="sm">
+              <Button asChild size="sm" variant="outline">
                 <Link to="/register">{t('nav.register')}</Link>
               </Button>
             </div>
@@ -147,13 +145,13 @@ export function SiteHeader({ user }: { user: PublicUser | null }) {
               <SheetHeader>
                 <SheetTitle>{t('app.name')}</SheetTitle>
               </SheetHeader>
-              <nav aria-label={t('nav.main')} className="mt-6 flex flex-col gap-1">
+              <nav aria-label={t('nav.main')} className="flex flex-col gap-1 px-4 pb-4">
                 {NAV_ITEMS.map((item) => (
                   <Link
                     key={item.to}
                     to={item.to}
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-lg px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                    className="rounded-md px-3 py-3 text-sm text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     activeProps={{ className: 'bg-accent text-accent-foreground font-medium' }}
                   >
                     {t(item.key)}

@@ -80,16 +80,13 @@ export function RecommendForm({
 
   return (
     <form
-      className="mt-10 space-y-5"
+      className="mt-8 rounded-xl border border-border bg-card px-5 sm:px-6"
       onSubmit={(event) => {
         event.preventDefault()
         onSubmit()
       }}
     >
-      <section
-        aria-labelledby={`${formId}-role`}
-        className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm sm:p-6"
-      >
+      <section aria-labelledby={`${formId}-role`} className="border-b border-border py-6">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 id={`${formId}-role`} className="text-base font-semibold">
             {t('recommend.step.role')}
@@ -108,11 +105,10 @@ export function RecommendForm({
                 aria-pressed={active}
                 onClick={() => onChange({ roleSlug: role.slug })}
                 className={cn(
-                  'rounded-xl border px-4 py-3 text-left transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                  'rounded-md border px-4 py-3 text-left transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card focus-visible:outline-none',
                   active && !budgetFromPlan && 'border-primary bg-accent text-accent-foreground',
                   active && budgetFromPlan && 'border-primary bg-card',
-                  !active &&
-                    'border-border/80 bg-surface-sunken hover:border-border hover:bg-accent/50',
+                  !active && 'border-border bg-transparent hover:border-input hover:bg-muted',
                 )}
               >
                 <span className="flex items-center justify-between gap-2">
@@ -138,8 +134,8 @@ export function RecommendForm({
         ref={budgetSectionRef}
         aria-labelledby={`${formId}-budget`}
         className={cn(
-          'scroll-mt-24 rounded-2xl border bg-card p-5 shadow-sm sm:p-6',
-          budgetFromPlan ? 'border-primary ring-1 ring-primary/30' : 'border-border/70',
+          'scroll-mt-24 border-b border-border py-6',
+          budgetFromPlan && 'border-b-primary',
         )}
       >
         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -174,7 +170,7 @@ export function RecommendForm({
               onChange={(event) =>
                 onChange({ amountInput: event.target.value.replace(/\D/g, '').slice(0, 9) })
               }
-              className="tabular text-base"
+              className="h-11 text-base tabular"
             />
           </div>
 
@@ -184,7 +180,7 @@ export function RecommendForm({
               value={value.unit}
               onValueChange={(next) => onChange({ unit: next as BudgetUnit })}
             >
-              <SelectTrigger id={unitId} className="w-full">
+              <SelectTrigger id={unitId} className="min-h-11 w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -198,7 +194,7 @@ export function RecommendForm({
           </div>
         </div>
 
-        <div className="mt-4 rounded-xl bg-surface-sunken px-4 py-3">
+        <div className="mt-4 rounded-md bg-surface-sunken px-4 py-3">
           {budgetValid ? (
             <>
               <p className="text-sm font-medium tabular">
@@ -218,10 +214,7 @@ export function RecommendForm({
         </div>
       </section>
 
-      <section
-        aria-labelledby={`${formId}-diet`}
-        className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm sm:p-6"
-      >
+      <section aria-labelledby={`${formId}-diet`} className="py-6">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 id={`${formId}-diet`} className="text-base font-semibold">
             {t('recommend.step.diet')}
@@ -240,10 +233,10 @@ export function RecommendForm({
                 aria-pressed={active}
                 onClick={() => toggleDiet(tag)}
                 className={cn(
-                  'rounded-full border px-3 py-1.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                  'min-h-11 rounded-md border px-3 py-2 text-sm transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card focus-visible:outline-none',
                   active
                     ? 'border-primary bg-primary text-primary-foreground'
-                    : 'border-border/80 bg-surface-sunken text-muted-foreground hover:text-foreground',
+                    : 'border-border bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground',
                 )}
               >
                 {t(DIET_TAG_LABEL_KEY[tag])}
@@ -253,8 +246,8 @@ export function RecommendForm({
         </div>
       </section>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Button type="submit" size="lg" className="rounded-xl" disabled={loading}>
+      <div className="flex flex-wrap items-center gap-3 pb-6">
+        <Button type="submit" size="lg" disabled={loading}>
           {loading ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
           {loading ? t('recommend.submitting') : t('recommend.submit')}
         </Button>

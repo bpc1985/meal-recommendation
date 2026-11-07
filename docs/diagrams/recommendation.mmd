@@ -1,0 +1,49 @@
+---
+title: "Măm: một lượt gợi ý ba bữa"
+---
+stateDiagram-v2
+  state "Legend" as legend {
+    lg0: Nhập
+    lg1: Chờ
+    lg2: Lỗi
+    lg3: Sai quy tắc
+    lg4: Thiếu món
+    lg5: Có kết quả
+    lg6: Breaks FallbackIsVisible
+    lg7: Path to the FallbackIsVisible bug
+  }
+  class lg0 blue
+  class lg1 yellow
+  class lg2 orange
+  class lg3 pink
+  class lg4 tan
+  class lg5 teal
+  class lg6 breaks
+  class lg7 bugPath
+  s0: Nhập vai trò và ngân sách
+  s1: Đang tìm ba bữa
+  s2: Báo không tạo được gợi ý
+  s3: Báo ngân sách không hợp lệ
+  s4: Hiện đủ ba bữa
+  s5: AI lỗi#59; có kết quả nhưng không báo dự phòng
+  s6: Hiện kết quả và các bữa thiếu món
+  [*] --> s0
+  s0 --> s1: bạn gửi [ngân sách hợp lệ]
+  s0 --> s3: bạn gửi [ngân sách không hợp lệ]
+  s1 --> s2: yêu cầu thất bại vì mạng hoặc máy chủ
+  s1 --> s4: nhận ba món khác nhau với giá từ dữ liệu
+  s1 --> s5: AI lỗi#59; dùng dữ liệu mẫu [vẫn tìm đủ ba bữa]
+  s1 --> s6: không đủ món mới vừa trần bữa
+  s3 --> s1: bạn gửi [ngân sách hợp lệ]
+  classDef breaks fill:#ffecee,stroke:#e72e3b,stroke-width:2.5px,color:#cd2834
+  class s0 blue
+  class s0 bugPath
+  class s1 yellow
+  class s1 bugPath
+  class s2 orange
+  class s3 orange
+  class s4 teal
+  class s5 pink
+  class s5 breaks
+  class s5 bugPath
+  class s6 tan

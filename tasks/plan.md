@@ -183,3 +183,45 @@ sạch. Sau P8 spec mở rộng thành 12 tiêu chí (S1–S12), cả hai tiêu 
   vẫn giữ lựa chọn; dark mode giữ token và bố cục cũ; gợi ý mock vẫn hoạt động.
 - Kiểm chứng: ảnh trình duyệt trước/sau, thao tác gợi ý, checkpoint a11y, e2e và toàn bộ cổng
   format → typecheck → lint → unit → build → i18n. Không đổi logic nên không thêm unit test.
+
+## Design refinement — 2026-11-07
+
+- Mục tiêu: giảm trang trí, ưu tiên chọn bữa ăn và so sánh ngân sách; giữ nguyên nghiệp vụ.
+- Review: hero lồng thẻ, gradient kem, bóng nhiều lớp và số thứ tự giá trị không mang nghĩa;
+  lựa chọn vai trò/chế độ ăn dùng quá nhiều nền màu và góc bo.
+- Token: nền gạo `#F7F8F6`, trắng `#FFFFFF`, chữ `#242B26`, chữ phụ `#626A63`,
+  viền `#DCE1DA`, hành động paprika `#984323`; teal chỉ biểu thị trạng thái ngân sách.
+  Giữ Be Vietnam Pro tự host (400/500/600), tiền tabular, dark mode tương phản hiện có.
+- Bố cục: nội dung căn trái, danh sách vai trò/ngân sách căn giá sang phải; bỏ hero đóng khung,
+  badge và số trang trí; giá trị thành ba đoạn văn không thẻ.
+  Form gợi ý dùng một bề mặt chung, phân khu bằng khoảng cách và đường chia.
+- So sánh: giữ ba thẻ lớn sẽ vẫn giống landing SaaS; chọn danh sách ngân sách vì nội dung thực
+  của Măm là món Việt và tiền ăn mỗi ngày, không phải số liệu dashboard.
+
+```text
+Tên + điều hướng                         Ngôn ngữ / theme / tài khoản
+
+Hôm nay ăn gì…                           Ngân sách tham khảo mỗi ngày
+Mô tả ngắn                               Vai trò                 Giá
+Gợi ý ngay   Hỏi AI                       Vai trò                 Giá
+Lưu ý giá                                …
+
+Giá từ dữ liệu           Vừa ngân sách           Thực đơn nhiều ngày
+```
+
+- Phạm vi: CSS, markup trang chủ/header/form, copy tiêu đề tham khảo vi/en; không thêm
+  dependency, không đổi API, validation, thuật toán hay trạng thái React.
+- Nghiệm thu: desktop, mobile 390/320px, vi/en và dark; bàn phím/reduced motion; gợi ý mock,
+  checkpoint a11y, e2e và các cổng bắt buộc. Chỉ đổi trình bày nên dùng suite hiện có và browser smoke.
+- Kiểm trực quan hoàn tất trên light/dark, vi/en; bảng kiểm không tràn ở 320/390/768/1440px
+  cho home/recommend/dishes/login. Gợi ý mock dev và production trả ba bữa 57.000/60.000 ₫.
+- Sheet mobile đã bỏ khoảng trống thừa/inset thiếu, đo animation `0.15s`, nút đóng 44×44px.
+- Cổng format → typecheck → lint → 459 unit → build → i18n đã xanh; dictionary còn 323 key
+  sau khi bỏ eyebrow không dùng. Checkpoint a11y: 0 lỗi/vi phạm, bàn phím và reduced motion đạt.
+- Production Slow 4G/CPU ×4 (trung vị ba lượt): home LCP 1896ms, CLS 0.0074;
+  recommend LCP 2128ms, CLS 0.0002; không có origin bên thứ ba.
+- E2e bỏ giả định chiều cao cố định 40/65px đã lỗi thời; kiểm nhãn điều hướng cùng một dòng
+  bằng vị trí chữ thực, giữ kiểm overflow/overlap/tên truy cập. Không thu nhỏ target để test xanh.
+- E2e cuối: 26/26 đạt; có log hydration mismatch ở bộ lọc dishes và accordion trước hydrate.
+  Không sửa luồng dữ liệu trong đợt thiết kế. Đã xoá report/trace sinh từ lần chạy này để lint
+  không quét JavaScript đóng gói của Playwright.

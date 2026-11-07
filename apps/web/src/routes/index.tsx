@@ -1,9 +1,6 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, MessageCircle } from 'lucide-react'
+import { createFileRoute } from '@tanstack/react-router'
 import { usePreferences } from '@/components/preferences-provider'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCatalogStats, listRoles } from '@/server/catalog.functions'
 import type { TranslationKey } from '@mam/i18n'
 
@@ -15,7 +12,7 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 })
 
-const VALUE_CARDS: Array<{ title: TranslationKey; desc: TranslationKey }> = [
+const VALUE_ITEMS: Array<{ title: TranslationKey; desc: TranslationKey }> = [
   { title: 'home.value.price.title', desc: 'home.value.price.desc' },
   { title: 'home.value.budget.title', desc: 'home.value.budget.desc' },
   { title: 'home.value.plan.title', desc: 'home.value.plan.desc' },
@@ -27,84 +24,59 @@ function HomePage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
-      <section className="home-hero grid gap-10 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+      <section className="home-hero">
         <div>
-          <Badge
-            variant="secondary"
-            className="home-eyebrow rounded-full px-3 py-1 text-xs font-medium"
-          >
-            {t('home.eyebrow')}
-          </Badge>
+          <h1 className="home-title">{t('home.title')}</h1>
 
-          <h1 className="home-title mt-5 text-4xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-5xl">
-            {t('home.title')}
-          </h1>
-
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-5 max-w-[46ch] text-base leading-relaxed text-muted-foreground">
             {t('home.subtitle')}
           </p>
 
-          <div className="home-actions mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="rounded-xl">
-              <a href="/recommend">
-                {t('home.ctaPrimary')}
-                <ArrowRight className="size-4" aria-hidden />
-              </a>
+          <div className="home-actions mt-7 flex flex-wrap items-center gap-2">
+            <Button asChild size="lg">
+              <a href="/recommend">{t('home.ctaPrimary')}</a>
             </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-xl">
-              <a href="/chat">
-                <MessageCircle className="size-4" aria-hidden />
-                {t('home.ctaSecondary')}
-              </a>
+            <Button asChild size="lg" variant="ghost">
+              <a href="/chat">{t('home.ctaSecondary')}</a>
             </Button>
           </div>
 
-          <p className="mt-4 text-xs text-muted-foreground">{t('home.disclaimer')}</p>
+          <p className="mt-5 max-w-[54ch] text-xs leading-relaxed text-muted-foreground">
+            {t('home.disclaimer')}
+          </p>
         </div>
 
-        <Card className="home-roles rounded-2xl border-border/70 bg-card shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">{t('home.rolesTitle')}</CardTitle>
-            <CardDescription>
-              {t('common.sampleData', { count: stats.dishes })} ·{' '}
-              {t('role.count', { count: roles.length })}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="home-role-list flex flex-wrap gap-2">
+        <section className="home-roles" aria-labelledby="home-roles-title">
+          <h2 id="home-roles-title" className="text-base font-semibold">
+            {t('home.rolesTitle')}
+          </h2>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            <span>{t('common.sampleData', { count: stats.dishes })}</span>
+            <span>{t('role.count', { count: roles.length })}</span>
+          </div>
+          <dl className="home-role-list">
             {roles.map((role) => (
-              <span
-                key={role.slug}
-                className="home-role rounded-xl border border-border/70 bg-surface-sunken px-3 py-2 text-sm"
-              >
-                <span className="font-medium">{locale === 'vi' ? role.nameVi : role.nameEn}</span>
-                <span className="home-role-budget ml-2 text-xs text-muted-foreground tabular">
+              <div key={role.slug} className="home-role">
+                <dt>{locale === 'vi' ? role.nameVi : role.nameEn}</dt>
+                <dd className="home-role-budget tabular">
                   {formatMoney(role.defaultDailyBudgetVnd)}
-                </span>
-              </span>
+                </dd>
+              </div>
             ))}
-          </CardContent>
-        </Card>
+          </dl>
+        </section>
       </section>
 
-      <section className="home-values grid gap-4 pb-20 sm:grid-cols-2 lg:grid-cols-3">
-        {VALUE_CARDS.map((card, index) => (
-          <Card key={card.title} className="home-value rounded-2xl border-border/70 shadow-none">
-            <CardHeader>
-              <span className="home-value-index text-xs font-medium text-primary tabular">
-                0{index + 1}
-              </span>
-              <CardTitle className="text-base">{t(card.title)}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm leading-relaxed text-muted-foreground">{t(card.desc)}</p>
-            </CardContent>
-          </Card>
+      <section className="home-values">
+        {VALUE_ITEMS.map((card) => (
+          <div key={card.title}>
+            <h2 className="text-sm font-semibold">{t(card.title)}</h2>
+            <p className="mt-2 max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
+              {t(card.desc)}
+            </p>
+          </div>
         ))}
       </section>
-
-      <p className="sr-only">
-        <Link to="/recommend">{t('nav.recommend')}</Link>
-      </p>
     </div>
   )
 }
